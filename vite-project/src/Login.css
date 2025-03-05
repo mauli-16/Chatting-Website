@@ -1,20 +1,22 @@
-.login_out{
-    background-color:white;
-    background: white;
-
-    height:20em;
-    width:20em;
-    border-radius: 15px;
+.login_out {
+    background-color: rgba(255, 255, 255, 0.26) ;
     backdrop-filter: blur(10px);
+    width: 25em;
+    height: 30em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
-*{
-    background: url(./assets/loginbg.jpg) center fixed;
-    margin:0;
-    padding:0;
-    background-size: cover;
-    height:100vh;
-    width:100vw;
 
+  
+
+    
+html, body {
+    background: url(./assets/loginbg.jpg) center fixed;
+    margin: 0;
+    padding: 0;
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
 }
