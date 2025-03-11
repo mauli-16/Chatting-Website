@@ -10,10 +10,11 @@
 }
 
 .login_inner{
-    color: rgb(241, 234, 234);
-    
+    color: rgb(241, 234, 234);   
+}
 
-    
+.ca{
+    color: rgba(0, 0, 255, 0.461);
 }
 label{
     color: white;
