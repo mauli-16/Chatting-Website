@@ -1,0 +1,49 @@
+.login_out {
+    background-color: rgba(255, 255, 255, 0.26) ;
+    backdrop-filter: blur(10px);
+    width: 25em;
+    height: 30em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+}
+
+.login_inner{
+    color: rgb(241, 234, 234);   
+}
+
+.ca{
+    color: rgba(21, 14, 232, 0.461);
+}
+label{
+    color: white;
+    font-size: 30px;
+    font-family: 'Times New Roman', Times, serif;  
+    padding-left: 5px;
+}
+input{
+    background-color: white;
+    color: black;
+    width: 100%;
+    height:25px;
+    margin-bottom: 15px;
+
+}
+
+
+  
+
+    
+html, body {
+    
+    background:url(./loginbg.jpg) center fixed;
+    
+    margin: 0;
+    padding: 0;
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
+}
+
+
