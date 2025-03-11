@@ -12,10 +12,7 @@ const Login = () => {
     <div className='login_out'>
       
       <div className='login_inner'>
-      <label>Enter username</label>
-      <br />
-      <input type="text" placeholder='Enter username' />
-      <br />
+      
       <label htmlFor="">Enter email</label>
       <br />
       <input type="email" />
@@ -23,6 +20,9 @@ const Login = () => {
       <label htmlFor="">Enter password</label>
       <br />
       <input type="password" />
+      <button>Login</button>
+      <br />
+      <h3>Dont have an account? <a className='ca'>Create account</a></h3>
     </div>
     </div>
   )
