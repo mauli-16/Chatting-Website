@@ -6,12 +6,14 @@ import './Chat.css'
 
 const Chat = () => {
   return (
-    <div>
-      <div className="chat-container">
+    <div className='chat'>
+      <div className="part">
       <Leftpart/>
-      <Middlepart/>
-      <Rightpart/>
       </div>
+      <div className="part"><Middlepart/></div>
+      <div className="part"><Rightpart/></div>
+      
+     
     
     
     
