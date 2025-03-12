@@ -1,0 +1,12 @@
+.part{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black; 
+  }
+.chat{
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr; 
+    /* fractionalunit */
+    height: 100vh;
+}
