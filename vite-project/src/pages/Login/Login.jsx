@@ -34,7 +34,7 @@ const Login = () => {
       </button>
       <br />
 
-           <h3>
+        <h3>
           {currstate === "Login" ? "Don't have an account?" : "Already have an account?"} 
           <span 
             onClick={() => setcurrstate(currstate === "Login" ? "Signup" : "Login")} 
