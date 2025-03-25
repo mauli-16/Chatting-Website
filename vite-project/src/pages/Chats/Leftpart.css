@@ -1,0 +1,14 @@
+.searchbox{
+    border: 1px red solid;
+    width:30em;
+    height:2em;
+    background-color: rgba(255, 255, 255, 0.968) ;
+    backdrop-filter: blur(10px);
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: -25em;
+
+    
+}
