@@ -1,8 +1,12 @@
 import React from 'react'
-
+import './Leftpart.css'
 const Leftpart = () => {
   return (
-    <div>Leftpart</div>
+
+    <div>
+     <input type="text" className='searchbox' placeholder='search' />
+     
+    </div>
   )
 }
 
