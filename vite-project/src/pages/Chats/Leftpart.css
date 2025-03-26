@@ -1,14 +1,21 @@
-.searchbox{
-    border: 1px red solid;
-    width:30em;
-    height:2em;
-    background-color: rgba(255, 255, 255, 0.968) ;
-    backdrop-filter: blur(10px);
-    color: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: -25em;
 
-    
+.searchicon{
+    position: absolute;
+    top: 35%;
+    left: 10px;
+    transform: translateY(-50%);
+    color:black
 }
+ .search-container{
+    position: relative;
+    width: 25em;
+    margin-left:0;
+    margin-top: -20em;
+    margin-right:0 !important;
+}
+ 
+.searchbox{
+    padding-left:  30px;
+    width: 100%;
+}
+ 
