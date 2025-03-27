@@ -1,4 +1,4 @@
-
+/* 
 .searchicon{
     position: absolute;
     top: 35%;
@@ -10,12 +10,69 @@
     position: relative;
     width: 25em;
     margin-left:0;
-    margin-top: -20em;
-    margin-right:0 !important;
+    margin:1em;
+    
 }
  
 .searchbox{
     padding-left:  30px;
     width: 100%;
 }
- 
+.chat1{
+    border: 1px solid red;
+    height: 40%;
+    
+}
+  */
+
+  .left-panel {
+    position: absolute;
+  top: 0;
+  left: 0;
+  width: 25%;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+    padding: 1em;
+  }
+  
+  .search-container {
+    position: relative;
+    width: 100%;
+    max-width: 25em;
+    margin-bottom: 3em;
+  }
+  
+  .searchicon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: black;
+  }
+  
+  .searchbox {
+    padding-left: 30px;
+    width: 100%;
+    height: 2.5em;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .chat-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    width: 100%;
+    max-width: 30em;
+  }
+  
+  .chat1 {
+    padding: 0.8em;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+  }
+  
+
