@@ -12,11 +12,9 @@ const Leftpart = () => {
       </div>
       
       <div className='chat-container'>
-        <div className='chat1'>hello</div>
-        <div className='chat1'>hello</div>
-        <div className='chat1'>hello</div>
-        <div className='chat1'>hello</div>
-        <div className='chat1'>hello</div>
+      {Array.from({ length: 10 }).map((_, index) => (
+    <div className="chat1" key={index}>hello</div>
+  ))}
 
       </div>
     </div>
