@@ -3,10 +3,13 @@
     justify-content: center;
     align-items: center;
     border: 1px solid black; 
+    padding-left: 0px;
   }
 .chat{
     display: grid;
     grid-template-columns: 1fr 2fr 1fr; 
-    /* fractionalunit */
+    width:100vw;
     height: 100vh;
+    
 }
+
