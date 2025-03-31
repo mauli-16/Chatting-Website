@@ -1,7 +1,7 @@
 import React from 'react'
 import './Middlepart.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPhone, faVideo } from '@fortawesome/free-solid-svg-icons';
+import { faPhone, faVideo, faPaperclip, faFaceSmile, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 const Middlepart = () => {
   return (
     <>
@@ -13,8 +13,21 @@ const Middlepart = () => {
         <div className="calls">
           <FontAwesomeIcon icon={faPhone} />
           <FontAwesomeIcon icon={faVideo} />
-        </div>  
+        </div>
       </div>
+      <div className="msg-container">
+        <div className="msg-content">
+        <input className='actual-msg' type="text" 
+        placeholder='Write a message' />
+        </div>
+        
+        <div className="attach">
+        <FontAwesomeIcon icon={faPaperclip} />
+        <FontAwesomeIcon icon={faFaceSmile} />
+        <FontAwesomeIcon icon={faPaperPlane} />
+        </div>
+         
+      </div>  
     </>
   )
 }

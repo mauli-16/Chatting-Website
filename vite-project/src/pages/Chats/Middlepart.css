@@ -40,3 +40,39 @@
   
   margin-left: 10px;
 }
+.msg-container{
+  background-color: rgba(255, 255, 255, 0.772);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width:45%;
+  margin-left: 5px;
+  margin-right: 5px;
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 1em;
+  height:4%
+  
+
+}
+.attach{
+  cursor:pointer;
+  display: flex;
+  gap:1em;
+  margin-left: 5em;
+  margin-right: 5px;
+  color: black;
+}
+.msg-content{
+ 
+  /* margin-left: 5px; */
+  
+
+  
+}
+.actual-msg{
+  background-color: rgba(255, 255, 255, 0.772);
+  margin-top: 1em;
+  border: none;
+  width: 250%;
+}
