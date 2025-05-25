@@ -22,7 +22,7 @@ const Login = () => {
   };
   useEffect(() => {
     if (user) {
-      navigate("/chat");
+      navigate("/profile");
     }
   }, [user, navigate]);
   return (
