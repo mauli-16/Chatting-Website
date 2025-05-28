@@ -3,21 +3,30 @@ import "./Login.css";
 import { useUserContext } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { db } from "../../firebase.config";
+import {doc, setDoc} from "firebase/firestore";
+import { auth } from "../../firebase.config";
 
 const Login = () => {
   const [currstate, setcurrstate] = useState("Login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  
 
   const { user, registerUser, signInUser, loading, error } = useUserContext();
   const navigate = useNavigate();
 
-  const handleAction = () => {
+  const handleAction = async () => {
     if (currstate === "Login") {
-      signInUser(email, password);
+      await signInUser(email, password);
+      console.log('hi')
     } else {
-      registerUser(email, username, password);
+       await registerUser(email, username, password);
+      await setDoc(doc(db,"users",auth.currentUser.uid),{
+        username:username
+      });
+      console.log("Username written successfully");
     }
   };
   useEffect(() => {
