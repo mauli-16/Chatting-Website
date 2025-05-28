@@ -1,55 +1,108 @@
-import React,{useState} from 'react'
-import './Profile.css'
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { updateProfile } from 'firebase/auth';
-import { auth } from '../../firebase/firebase'
-const Profile = () => {
-  const [file,setFile]=useState(null);
-  const [bio,setBio]=useState(null);
-  const [uploading,setUploading]=useState(false);
-  const[success,setSuccess]=useState(false);
+import React, { useState, useEffect } from "react";
+import { auth, db } from "../../firebase.config";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
+import "./Profile.css"
 
-  const handleUpload= async()=>{
-    if(!file || !auth.currentUser) return false;
-    try{
-      setUploading(true)
-      const storage=getStorage();
-      const fileRef= ref(storage,`profilePictures/${auth.currentUser.uid}`);
-      console.log(auth.currentUser.uid);
-      await uploadBytes(fileRef,file);
-      const photoURL= await getDownloadURL(fileRef)
-      await updateProfile(auth.currentUser,{
-        photoURL:photoURL,
-        displayName:bio|| auth.currentUser.displayName
-      });
-      setSuccess(true)
+const Login = () => {
+  const [currstate, setcurrstate] = useState("Login");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
+  const registerUser = async (email, password) => {
+    return await createUserWithEmailAndPassword(auth, email, password);
+  };
+
+  const signInUser = async (email, password) => {
+    return await signInWithEmailAndPassword(auth, email, password);
+  };
+
+  const handleAction = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      if (currstate === "Login") {
+        await signInUser(email, password);
+        console.log("Logged in");
+      } else {
+        const userCredential = await registerUser(email, password);
+        console.log("Registered user:", userCredential.user.uid);
+
+        // Save username in Firestore using the registered user's UID
+        await setDoc(doc(db, "users", userCredential.user.uid), {
+          username: username,
+        });
+        console.log("Username written successfully");
+      }
+      navigate("/profile");
+    } catch (err) {
+      setError(err.message);
+      console.error(err);
     }
-    catch(error){
-      console.error("Error uploading profile:", error);
-    }
-    finally{
-      setUploading(false)
-    }
-  }
-  
+    setLoading(false);
+  };
 
   return (
-    <div className='profile-box'>
-      <div className="photo-box">
-        <label htmlFor="" className='pp'>Enter your profile photo</label>
-        <input type="file" className='photo' onChange={(e)=>{setFile(e.target.files[0])}}/>
-      </div>
-      <div className="bio">
-      <label htmlFor="" className='pt'>Enter your bio</label>
-      <input type="text" onChange={(e)=>{setBio(e.target.value)}} />
-      </div>
-      <button onClick={handleUpload} disabled={uploading}>
-        {uploading?'Uploading..':'Save profile'}
-      </button>
-      {success && <p style={{color:'green'}}>Profile updated successfully</p>}
-    </div>
-  )
-}
+    <div className="login_out">
+      <div className="login_inner">
+        <h2>{currstate}</h2>
 
-export default Profile
+        {currstate === "Signup" && (
+          <>
+            <label htmlFor="username">Enter username</label>
+            <input
+              type="text"
+              id="username"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </>
+        )}
+
+        <label htmlFor="email">Enter email</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <label htmlFor="password">Enter password</label>
+        <input
+          type="password"
+          id="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <button onClick={handleAction} disabled={loading}>
+          {loading ? "Please wait..." : currstate === "Login" ? "Login" : "Signup"}
+        </button>
+
+        {error && <p style={{ color: "red" }}>{error}</p>}
+
+        <h3>
+          {currstate === "Login"
+            ? "Don't have an account?"
+            : "Already have an account?"}{" "}
+          <span
+            onClick={() => setcurrstate(currstate === "Login" ? "Signup" : "Login")}
+            className="ca"
+          >
+            {currstate === "Login" ? " Create account" : " Login"}
+          </span>
+        </h3>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
