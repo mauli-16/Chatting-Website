@@ -37,11 +37,11 @@ const Rightpart = () => {
       <div className="profile">
         <img
           className="circle"
-          src={user?.photoURL || 'default-profile.png'}
+          src={userData?.photoURL || 'default-profile.png'}
           alt="Profile"
         />
         <div className="name">{userData?.username || "Unknown User"}</div>
-        <div className="bio">{user?.displayName || "No bio provided"}</div>
+        <div className="bio">{userData?.bio || "No bio provided"}</div>
       </div>
       <div className="media">Media</div>
       <button className='logout'>Logout</button>
