@@ -13,27 +13,36 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   
+  
 
   const { user, registerUser, signInUser, loading, error } = useUserContext();
   const navigate = useNavigate();
+  
 
   const handleAction = async () => {
     if (currstate === "Login") {
       await signInUser(email, password);
       console.log('hi')
     } else {
-       await registerUser(email, username, password);
-      await setDoc(doc(db,"users",auth.currentUser.uid),{
-        username:username
+      await registerUser(email, username, password);
+    // Wait a bit or get the user from your context after registration
+    const user = auth.currentUser;
+    if (user) {
+      await setDoc(doc(db, "users", user.uid), {
+        username: username,
       });
       console.log("Username written successfully");
+    } else {
+      console.log("User not available yet after signup");
     }
+  }
+   
   };
-  useEffect(() => {
-    if (user) {
-      navigate("/profile");
-    }
-  }, [user, navigate]);
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate("/profile");
+  //   }
+  // }, [user, navigate]);
   return (
     <div className="login_out">
       <div className="login_inner">
@@ -70,7 +79,7 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button onClick={handleAction}>
+        <button onClick={() => { console.log('button clicked'); handleAction(); }}>
           {loading
             ? "Please wait..."
             : currstate === "Login"

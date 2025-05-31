@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDRRQUvxl3Rzcuk384MidgYmhpcMNXbEDs",
@@ -18,4 +19,5 @@ const app = initializeApp(firebaseConfig);
 export const auth=getAuth(app);
 auth.settings.appVerificationDisabledForTesting = false;
 export const db = getFirestore(app); 
+export const storage = getStorage(app);
 

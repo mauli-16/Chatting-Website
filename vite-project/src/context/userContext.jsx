@@ -22,18 +22,23 @@ export const UserContextProvider=({children})=>{
         return unsubscribe;
     },[]);
    
-    const registerUser=(email,name,password)=>{
-        setLoading(true)
-        createUserWithEmailAndPassword(auth,email,password).then(()=>{
-              return updateProfile(auth.currentUser,{
-                  displayName:name,
-        });
-        }).then((res)=>console.log(res))
-        .catch((err)=>setError(err.message))
-        .finally(()=>setLoading(false));
+   const registerUser = async (email, name, password) => {
+  setLoading(true);
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(userCredential.user, {
+      displayName: name,
+    });
+    setError("");
+    return userCredential;
+  } catch (err) {
+    setError(err.message);
+    throw err;
+  } finally {
+    setLoading(false);
+  }
+};
 
-
-    };
     
     const signInUser=(email,password)=>{
         setLoading(true);
