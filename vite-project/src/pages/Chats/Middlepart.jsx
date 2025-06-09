@@ -1,45 +1,63 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Middlepart.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { db } from '../../firebase.config';
-import { collection, addDoc, serverTimestamp,onSnapshot,query,orderBy } from 'firebase/firestore';
+import { db,auth } from '../../firebase.config';
+import { collection, addDoc,setDoc,doc, serverTimestamp,onSnapshot,query,orderBy } from 'firebase/firestore';
 import { faPhone, faVideo, faPaperclip, faFaceSmile, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 
 const Middlepart = () => {
-  const [messageText, setMessageText] = useState("");
-  const createChat = async (user1, user2, messageText) => {
-  try {
-    // Step 1: Create a new chat document with metadata (or skip if you already have it)
-    const chatsRef = collection(db, "chats");
-    const chatDoc = await addDoc(chatsRef, {
-      user1: user1,
-      user2: user2,
-      createdAt: serverTimestamp(),
+  const [messageText, setMessageText] = useState('');
+  const [messages, setMessages] = useState([]);
+
+  const user1 = auth.currentUser?.uid || 'anonymous'; 
+  const user2 = 'eWY3ucgmuyWW16jCQaCc0tuqiph1';
+  
+  const getchatID=(user1,user2)=>{
+    return [user1,user2].sort().join("_");
+  }       
+  const chatId = getchatID(user1,user2);
+  
+
+  const sendMessage = async () => {
+    if (!messageText.trim()) return;
+    
+    try {
+
+      await setDoc(doc(db, 'chats', chatId), {
+        members: [user1, user2],
+        lastMessage: messageText,
+        updatedAt: serverTimestamp()
+      }, { merge: true });
+
+      const messagesRef=collection(db,"chats",chatId,"messages");
+      await addDoc(messagesRef, {
+        sender: user1,
+        text: messageText,
+        timestamp: serverTimestamp(),
+      });
+      setMessageText('');
+    } catch (err) {
+      console.error('Error sending message:', err);
+    }
+  };
+
+  useEffect(() => {
+    const q = query(
+      collection(db, 'chats', chatId, 'messages'),
+      orderBy('timestamp')
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const msgs = snapshot.docs.map((doc) => doc.data());
+      setMessages(msgs);
     });
 
-    // Step 2: Add the message in a subcollection
-    const messagesRef = collection(db, "chats", chatDoc.id, "messages");
-    await addDoc(messagesRef, {
-      sender: user1,
-      text: messageText,
-      timestamp: serverTimestamp(),
-    });
+    return () => unsubscribe();
+  }, [chatId]);
 
-    console.log("Chat and message created!");
-    return chatDoc.id;
-  } catch (err) {
-    console.error("Error creating chat:", err);
-  }
-};
-  const handleMsg=async()=>{
-    const user1="GmWjEW3CRWfUIc0RZAFryYASbeT2";
-    const user2="eWY3ucgmuyWW16jCQaCc0tuqiph1";
-    if(!messageText.trim())return;
-    await createChat(user1,user2, messageText);
-    setMessageText("");
-  }
+
   return (
     <>
       <div className='nav-container'>
@@ -52,6 +70,15 @@ const Middlepart = () => {
           <FontAwesomeIcon icon={faVideo} />
         </div>
       </div>
+       <div className="messages-display">
+        {messages.map((msg, index) => (
+          <div key={index} className="msg-bubble">
+            <strong>{msg.sender === user1 ? 'You' : 'Them'}:</strong> {msg.text}
+          </div>
+        ))}
+      </div>
+
+
       <div className="msg-container">
         <div className="msg-content">
         <input className='actual-msg' type="text" 
@@ -61,7 +88,7 @@ const Middlepart = () => {
         <div className="attach">
         <FontAwesomeIcon icon={faPaperclip} />
         <FontAwesomeIcon icon={faFaceSmile} />
-        <FontAwesomeIcon icon={faPaperPlane} onClick={()=>handleMsg()} />
+        <FontAwesomeIcon icon={faPaperPlane} onClick={()=>sendMessage()} />
         </div>
          
       </div>  
