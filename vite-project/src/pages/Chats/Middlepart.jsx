@@ -12,7 +12,7 @@ const Middlepart = () => {
   const [messages, setMessages] = useState([]);
 
   const user1 = auth.currentUser?.uid || 'anonymous'; 
-  const user2 = 'eWY3ucgmuyWW16jCQaCc0tuqiph1';
+  const user2 = '8114DVpPmzy9u90tyX2W';
   
   const getchatID=(user1,user2)=>{
     return [user1,user2].sort().join("_");
