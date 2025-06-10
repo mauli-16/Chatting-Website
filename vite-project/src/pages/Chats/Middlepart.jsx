@@ -7,21 +7,49 @@ import { collection, addDoc,setDoc,doc, serverTimestamp,onSnapshot,query,orderBy
 import { faPhone, faVideo, faPaperclip, faFaceSmile, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 
-const Middlepart = () => {
+const Middlepart = ({selectedchat}) => {
   const [messageText, setMessageText] = useState('');
   const [messages, setMessages] = useState([]);
+  const[otherUser,setOtherUser]=useState(null)
 
   const user1 = auth.currentUser?.uid || 'anonymous'; 
-  const user2 = '8114DVpPmzy9u90tyX2W';
   
-  const getchatID=(user1,user2)=>{
-    return [user1,user2].sort().join("_");
-  }       
-  const chatId = getchatID(user1,user2);
   
+  const chatId=selectedchat?.id;
+  useEffect(() => {
+    if(!chatId){
+      return;
+    }
+    const q = query(
+      collection(db, 'chats', chatId, 'messages'),
+      orderBy('timestamp')
+    );
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const msgs = snapshot.docs.map((doc) => doc.data());
+      setMessages(msgs);
+    });
+
+    return () => unsubscribe();
+  }, [chatId]);
+  
+  useEffect(()=>{
+     if (!selectedchat || !selectedchat.members || !user1) return;
+    const otherUID = selectedchat.members.find((uid) => uid !== user1);
+
+    if(!otherUID) return;
+    
+    const docref=doc(db,'users',otherUID)
+    const unsub=onSnapshot(docref,(snapshot)=>{
+      setOtherUser(snapshot.data());
+    })
+    return ()=>unsub();
+  },[selectedchat,user1])
 
   const sendMessage = async () => {
     if (!messageText.trim()) return;
+    
+    const user2 = selectedchat.members.find((uid) => uid !== user1);
     
     try {
 
@@ -42,28 +70,21 @@ const Middlepart = () => {
       console.error('Error sending message:', err);
     }
   };
-
-  useEffect(() => {
-    const q = query(
-      collection(db, 'chats', chatId, 'messages'),
-      orderBy('timestamp')
+  if (!selectedchat || !selectedchat.id || !selectedchat.members || !user1) {
+    return (
+      <div className="middle-panel no-chat">
+        <p>Select a chat to start messaging.</p>
+      </div>
     );
+  }
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const msgs = snapshot.docs.map((doc) => doc.data());
-      setMessages(msgs);
-    });
-
-    return () => unsubscribe();
-  }, [chatId]);
-
-
+  
   return (
     <>
       <div className='nav-container'>
         <div className="nb">
-        <h4 className='name'>Mauli Saxena</h4>
-        <p className='bio'> sweet-toothed</p>
+        <h4 className='name'>{otherUser?.username}</h4>
+        <p className='bio'>{otherUser?.bio}</p>
         </div>
         <div className="calls">
           <FontAwesomeIcon icon={faPhone} />
