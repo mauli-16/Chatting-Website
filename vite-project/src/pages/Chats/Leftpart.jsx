@@ -7,7 +7,7 @@ import './Leftpart.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
-const Leftpart = () => {
+const Leftpart = ({onSelectChat, selectedchat}) => {
   const [chats, setChats] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [otherUsers, setOtherUsers] = useState({});
@@ -67,7 +67,7 @@ const Leftpart = () => {
           const otherUID = chat.members.find(uid => uid !== currentUser?.uid);
           const otherUser = otherUsers[otherUID];
           return (
-            <div key={chat.id} className="chat1">
+            <div key={chat.id} className="chat1" onClick={()=>onSelectChat(chat)}>
               <p>{otherUser ? otherUser.username : 'Fetching user...'}</p>
               <p>{chat.lastMessage || 'No messages yet'}</p>
             </div>
