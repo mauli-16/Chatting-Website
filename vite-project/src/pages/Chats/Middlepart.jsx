@@ -1,17 +1,38 @@
 import React from 'react'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './Middlepart.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { db,auth } from '../../firebase.config';
 import { collection, addDoc,setDoc,doc, serverTimestamp,onSnapshot,query,orderBy } from 'firebase/firestore';
 import { faPhone, faVideo, faPaperclip, faFaceSmile, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import Picker, { Emoji } from 'emoji-picker-react'
 
 
 const Middlepart = ({selectedchat}) => {
   const [messageText, setMessageText] = useState('');
   const [messages, setMessages] = useState([]);
   const[otherUser,setOtherUser]=useState(null)
+  const [emoji,setEmoji]=useState(false);
+  
+  const handleEmojiClick=(emojiObject)=>{
+    setMessageText((prev)=>prev+emojiObject.emoji)
+  };
+  const emojiPickerRef = useRef();
 
+useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)) {
+      setEmoji(false);
+    }
+  };
+
+  document.addEventListener('mousedown', handleClickOutside);
+
+  return () => {
+    document.removeEventListener('mousedown', handleClickOutside);
+  };
+}, []);
+  
   const user1 = auth.currentUser?.uid || 'anonymous'; 
   
   
@@ -108,7 +129,27 @@ const Middlepart = ({selectedchat}) => {
         
         <div className="attach">
         <FontAwesomeIcon icon={faPaperclip} />
-        <FontAwesomeIcon icon={faFaceSmile} />
+        <FontAwesomeIcon icon={faFaceSmile} onClick={()=>setEmoji((prev)=>!prev)}
+        style={{cursor:'pointer'}}/>
+        {emoji && (
+    <div
+      ref={emojiPickerRef}
+      style={{
+        position: 'absolute',
+        bottom: '70px',
+        right: '20px',
+        zIndex: 1000,
+        boxShadow: '0px 4px 12px rgba(0,0,0,0.15)',
+      }}
+    >
+      <Picker onEmojiClick={handleEmojiClick} />
+    </div>
+  )}
+
+
+
+
+
         <FontAwesomeIcon icon={faPaperPlane} onClick={()=>sendMessage()} />
         </div>
          
