@@ -169,7 +169,9 @@ const Middlepart = ({ selectedchat }) => {
           <div key={index} className="msg-bubble">
             <strong>{msg.sender === user1 ? "You" : "Them"}:</strong>
             {msg.text && <div className="text-msg">{msg.text}</div>}
-            <div className="file-preview">
+
+            {!msg.text && <div className="file-preview">
+              
               {msg.fileURL ? (
                 <div className="file-preview">
                   {/\.(jpg|jpeg|png|gif)$/i.test(msg.fileURL) ? (
@@ -193,7 +195,7 @@ const Middlepart = ({ selectedchat }) => {
                   )}
                 </div>
               ) : null}
-            </div>
+            </div>}
           </div>
         ))}
       </div>

@@ -13,7 +13,7 @@ const Chat = () => {
       <Leftpart onSelectChat={setSelectedChat} selectedchat={selectedchat}/>
       </div>
       <div className="part" ><Middlepart selectedchat={selectedchat}/></div>
-      <div className="part"><Rightpart/></div>
+      <div className="part"><Rightpart selectedchat={selectedchat}/></div>
       
      
     
