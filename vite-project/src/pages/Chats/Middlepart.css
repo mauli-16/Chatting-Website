@@ -42,6 +42,7 @@
 }
 .msg-container{
   background-color: rgba(255, 255, 255, 0.772);
+  color: black;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -66,7 +67,40 @@
 
 .actual-msg{
   background-color: rgba(255, 255, 255, 0.772);
+  color: black;
   margin-top: 1em;
   border: none;
   width: 250%;
+}
+.file-preview {
+  background: #f0f0f0;
+  padding: 8px;
+  border-radius: 10px;
+  max-width: 250px;
+  margin-top: 5px;
+  word-wrap: break-word;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.preview-img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.pdf-preview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.file-icon {
+  font-size: 1.5rem;
+}
+
+.file-link {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+  overflow-wrap: break-word;
 }
