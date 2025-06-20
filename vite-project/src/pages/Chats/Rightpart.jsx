@@ -5,16 +5,29 @@ import { doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
 import "./Rightpart.css";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
+import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const Rightpart = ({ selectedchat }) => {
+  const navigate=useNavigate();
   const [user, setUser] = useState(null);
   const [userData, setUserData] = useState(null);
   const [mediaMessages, setMediaMessages] = useState([]);
+  const handleLogout=async()=>{
+    try{
+      await signOut(auth)
+      navigate('/')
+    }
+    catch(error){
+      console.log('Error while logout:',error);
+      
+    }
+  }
   useEffect(() => {
     if (!selectedchat?.id) return;
 
     const messagesRef = collection(db, "chats", selectedchat.id, "messages");
-    const q = query(messagesRef, where("fileURL", "!=", null)); // Only media messages
+    const q = query(messagesRef, where("fileURL", "!=", null)); 
 
     const unsub = onSnapshot(q, (snapshot) => {
       const media = snapshot.docs.map((doc) => doc.data());
@@ -75,7 +88,7 @@ const Rightpart = ({ selectedchat }) => {
           </div>
         ))}
       </div>
-      <button className="logout">Logout</button>
+      <button className="logout" onClick={handleLogout}>Logout</button>
     </div>
   );
 };
