@@ -48,5 +48,21 @@
     font-weight: bold;
     font-size: 1em;
   }
-  
-
+  .user-avatar{
+    border-radius: 50%;
+    height: 4.5em;
+    
+  }
+  .user-details{
+    border: 1px solid ;
+  }
+  .user-item{
+    border: 1px solid black;
+  }
+  .username{
+   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
