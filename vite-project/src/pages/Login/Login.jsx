@@ -4,7 +4,7 @@ import { useUserContext } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { db } from "../../firebase.config";
-import {doc, setDoc} from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { auth } from "../../firebase.config";
 
 const Login = () => {
@@ -12,37 +12,31 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  
-  
 
   const { user, registerUser, signInUser, loading, error } = useUserContext();
   const navigate = useNavigate();
-  
 
   const handleAction = async () => {
     if (currstate === "Login") {
       await signInUser(email, password);
-      console.log('hi')
+      navigate("/chat");
+      console.log("hi");
     } else {
       await registerUser(email, username, password);
-    // Wait a bit or get the user from your context after registration
-    const user = auth.currentUser;
-    if (user) {
-      await setDoc(doc(db, "users", user.uid), {
-        username: username,
-      });
-      console.log("Username written successfully");
-    } else {
-      console.log("User not available yet after signup");
+
+      const user = auth.currentUser;
+      if (user) {
+        await setDoc(doc(db, "users", user.uid), {
+          username: username,
+        });
+        console.log("Username written successfully");
+        navigate("/profile");
+      } else {
+        console.log("User not available yet after signup");
+      }
     }
-  }
-   
   };
-  // useEffect(() => {
-  //   if (user) {
-  //     navigate("/profile");
-  //   }
-  // }, [user, navigate]);
+
   return (
     <div className="login_out">
       <div className="login_inner">
@@ -79,7 +73,12 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button onClick={() => { console.log('button clicked'); handleAction(); }}>
+        <button
+          onClick={() => {
+            console.log("button clicked");
+            handleAction();
+          }}
+        >
           {loading
             ? "Please wait..."
             : currstate === "Login"
