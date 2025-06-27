@@ -51,6 +51,7 @@
   .user-avatar{
     border-radius: 50%;
     height: 4.5em;
+    border: 1px solid blue;
     
   }
   .user-details{
